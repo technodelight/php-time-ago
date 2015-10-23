@@ -1,8 +1,8 @@
 <?php
 
-namespace Technodelight;
+namespace Technodelight\TimeAgo;
 
-class TimeAgoTranslator
+class Translator
 {
     /**
      * Durations mapped to values in seconds

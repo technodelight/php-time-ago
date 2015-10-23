@@ -2,7 +2,7 @@
 
 namespace Technodelight;
 
-use Technodelight\TimeAgoTranslator;
+use Technodelight\TimeAgo\Translator;
 use \DateTime;
 
 class TimeAgo
@@ -12,14 +12,14 @@ class TimeAgo
      */
     private $dateTime;
     /**
-     * @var TimeAgoTranslator
+     * @var Translator
      */
     private $translator;
 
-    public function __construct(DateTime $dateTime, TimeAgoTranslator $translator = null)
+    public function __construct(DateTime $dateTime, Translator $translator = null)
     {
         $this->dateTime = $dateTime;
-        $this->translator = $translator ?: new TimeAgoTranslator;
+        $this->translator = $translator ?: new Translator;
     }
 
     public function inWords(DateTime $now = null)

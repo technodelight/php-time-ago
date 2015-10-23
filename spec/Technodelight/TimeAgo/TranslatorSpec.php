@@ -1,15 +1,15 @@
 <?php
 
-namespace spec\Technodelight;
+namespace spec\Technodelight\TimeAgo;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class TimeAgoTranslatorSpec extends ObjectBehavior
+class TranslatorSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('Technodelight\TimeAgoTranslator');
+        $this->shouldHaveType('Technodelight\TimeAgo\Translator');
     }
 
     // less than 29secs
