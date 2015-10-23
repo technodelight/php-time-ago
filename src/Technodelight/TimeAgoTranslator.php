@@ -4,91 +4,87 @@ namespace Technodelight;
 
 class TimeAgoTranslator
 {
-    const SECONDS_PER_MINUTE = 60;
-    const SECONDS_PER_HOUR = 3600;
-    const SECONDS_PER_DAY = 86400;
-    const SECONDS_PER_MONTH = 2592000;
-    const SECONDS_PER_YEAR = 31104000;
+    /**
+     * Durations mapped to values in seconds
+     *
+     * @var array
+     */
+    private $secondsDurationMap = array(
+        'sec' => 1,
+        'min' => 60,
+        'hour' => 3600,
+        'day' => 86400,
+        'month' => 2592000,
+        'year' => 31104000,
+    );
 
     public function translate($seconds)
     {
         switch (true) {
-            case $seconds <= 29:
+            case $seconds <= $this->inSeconds('29sec'):
                 return 'less than a minute ago';
 
-            case $seconds > 29 && $seconds <= 89:
+            case $seconds > $this->inSeconds('29sec')
+                && $seconds <= $this->inSeconds('1min 29sec'):
                 return '1 minute ago';
 
-            case $seconds > 89 && $seconds <= ($this->minutesInSeconds(44) + 29):
-                return sprintf('%d minutes ago', $this->secondsInMinutes($seconds));
+            case $seconds > $this->inSeconds('1min 29sec')
+                && $seconds <= $this->inSeconds('44min 29sec'):
+                return sprintf('%d minutes ago', $this->secondsIn('min', $seconds));
 
-            case $seconds > ($this->minutesInSeconds(44) + 29)
-                && $seconds <= ($this->hoursInSeconds(1) + $this->minutesInSeconds(29) + 59):
+            case $seconds > $this->inSeconds('44min 29sec')
+                && $seconds <= $this->inSeconds('1hour 29min 59sec'):
                 return 'about 1 hour ago';
 
-            case $seconds > ($this->hoursInSeconds(1) + $this->minutesInSeconds(29) + 59)
-                && $seconds <= ($this->hoursInSeconds(23) + $this->minutesInSeconds(59) + 29):
-                return sprintf('%d hours ago', $this->secondsInHours($seconds));
+            case $seconds > $this->inSeconds('1hour 29min 59sec')
+                && $seconds <= $this->inSeconds('23hour 59min 29sec'):
+                return sprintf('%d hours ago', $this->secondsIn('hour', $seconds));
 
-            case $seconds > ($this->hoursInSeconds(23) + $this->minutesInSeconds(59) + 29)
-                && $seconds <= ($this->hoursInSeconds(47) + $this->minutesInSeconds(59) + 29):
+            case $seconds > $this->inSeconds('23hour 59min 29sec')
+                && $seconds <= $this->inSeconds('47hour 59min 29sec'):
                 return '1 day ago';
 
-            case $seconds > ($this->hoursInSeconds(47) + $this->minutesInSeconds(59) + 29)
-                && $seconds <= ($this->daysInSeconds(29) + $this->hoursInSeconds(23) + $this->minutesInSeconds(59) + 29):
-                return sprintf('%d days ago', $this->secondsInDays($seconds));
+            case $seconds > $this->inSeconds('47hour 59min 29sec')
+                && $seconds <= $this->inSeconds('29day 23hour 59min 29sec'):
+                return sprintf('%d days ago', $this->secondsIn('day', $seconds));
 
-            case $seconds > ($this->daysInSeconds(29) + $this->hoursInSeconds(23) + $this->minutesInSeconds(59) + 29)
-                && $seconds <= ($this->daysInSeconds(59) + $this->hoursInSeconds(23) + $this->minutesInSeconds(59) + 29):
+            case $seconds > $this->inSeconds('29day 23hour 59min 29sec')
+                && $seconds <= $this->inSeconds('59day 23hour 59min 29sec'):
                 return 'about 1 month ago';
 
-            case $seconds > ($this->daysInSeconds(59) + $this->hoursInSeconds(23) + $this->minutesInSeconds(59) + 29)
-                && $seconds < self::SECONDS_PER_YEAR:
-                return sprintf('%d months ago', $this->secondsInMonths($seconds));
+            case $seconds > $this->inSeconds('59day 23hour 59min 29sec')
+                && $seconds < $this->inSeconds('1year'):
+                return sprintf('%d months ago', $this->secondsIn('month', $seconds, 'ceil'));
 
-            case $seconds >= self::SECONDS_PER_YEAR
-                && $seconds < self::SECONDS_PER_YEAR * 2:
+            case $seconds >= $this->inSeconds('1year')
+                && $seconds < $this->inSeconds('2year'):
                 return 'about 1 year ago';
 
-            case $seconds >= self::SECONDS_PER_YEAR * 2:
-                return sprintf('over %d years ago', $this->secondsInYears($seconds));
+            case $seconds >= $this->inSeconds('2year'):
+                return sprintf('over %d years ago', $this->secondsIn('year', $seconds, 'floor'));
         }
     }
 
-    private function minutesInSeconds($minutes)
+    private function secondsIn($duration, $seconds, Callable $adjustment = null)
     {
-        return $minutes * self::SECONDS_PER_MINUTE;
-    }
-    private function secondsInMinutes($seconds)
-    {
-        return round($seconds / self::SECONDS_PER_MINUTE);
+        $exactValue = $seconds / $this->secondsDurationMap[$duration];
+        return $adjustment ? $adjustment($exactValue) : round($exactValue);
     }
 
-    private function hoursInSeconds($hours)
+    private function inSeconds($human)
     {
-        return $hours * self::SECONDS_PER_HOUR;
-    }
-    private function secondsInHours($seconds)
-    {
-        return round($seconds / self::SECONDS_PER_HOUR);
+        $parts = explode(' ', $human);
+        $seconds = 0;
+        foreach ($parts as $def) {
+            sscanf($def, '%d%s', $amount, $duration);
+            $seconds += $this->durationToSeconds($duration, $amount);
+        }
+
+        return $seconds;
     }
 
-    private function daysInSeconds($days)
+    private function durationToSeconds($duration, $amount)
     {
-        return $days * self::SECONDS_PER_DAY;
-    }
-    private function secondsInDays($seconds)
-    {
-        return round($seconds / self::SECONDS_PER_DAY);
-    }
-
-    private function secondsInMonths($seconds)
-    {
-        return ceil($seconds / self::SECONDS_PER_MONTH);
-    }
-
-    private function secondsInYears($seconds)
-    {
-        return floor($seconds / self::SECONDS_PER_YEAR);
+        return $amount * $this->secondsDurationMap[$duration];
     }
 }
