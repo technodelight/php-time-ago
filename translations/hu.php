@@ -1,6 +1,6 @@
 <?php
 
-$timeAgoStrings = array(
+return array(
   'aboutOneDay' => "1 napja",
   'aboutOneHour' => "körülbelül 1 órája",
   'aboutOneMonth' => "körülbelül 1 hónapja",

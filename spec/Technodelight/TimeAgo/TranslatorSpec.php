@@ -4,12 +4,13 @@ namespace spec\Technodelight\TimeAgo;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Technodelight\TimeAgo\Translation;
 
 class TranslatorSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    function let()
     {
-        $this->shouldHaveType('Technodelight\TimeAgo\Translator');
+        $this->beConstructedWith(new Translation);
     }
 
     // less than 29secs

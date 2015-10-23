@@ -1,6 +1,6 @@
 <?php
 
-$timeAgoStrings = array(
+return array(
   'aboutOneDay' => "vor einem Tag",
   'aboutOneHour' => "vor etwa einer Stunde",
   'aboutOneMonth' => "vor etwa einem Monat",

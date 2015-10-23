@@ -1,6 +1,6 @@
 <?php
 
-$timeAgoStrings = array(
+return array(
   'aboutOneDay' => "1 dag geleden",
   'aboutOneHour' => "ongeveer 1 uur geleden",
   'aboutOneMonth' => "ongeveer 1 maand geleden",
