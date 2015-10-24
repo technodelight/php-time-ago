@@ -9,12 +9,7 @@ class FormatterSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('days', 'day');
-    }
-
-    function it_has_a_name()
-    {
-        $this->name()->shouldReturn('days');
+        $this->beConstructedWith('day');
     }
 
     function it_formats_seconds_to_days()
@@ -24,6 +19,7 @@ class FormatterSpec extends ObjectBehavior
 
     function it_can_format_with_strategy()
     {
-        $this->format(172000, 'floor')->shouldReturn(1);
+        $this->beConstructedWith('day', 'floor');
+        $this->format(172000)->shouldReturn(1);
     }
 }

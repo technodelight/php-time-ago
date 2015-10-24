@@ -5,12 +5,13 @@ namespace spec\Technodelight\TimeAgo;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Technodelight\TimeAgo\Translation;
+use Technodelight\TimeAgo\Translation\DefaultRuleSet;
 
 class TranslatorSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(new Translation);
+        $this->beConstructedWith(new Translation, new DefaultRuleSet);
     }
 
     // less than 29secs

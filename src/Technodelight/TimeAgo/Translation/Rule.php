@@ -34,23 +34,6 @@ class Rule
 
     public function match($seconds)
     {
-        return $seconds < $this->timespan;
-    }
-
-    private function inSeconds($human)
-    {
-        $parts = explode(' ', $human);
-        $seconds = 0;
-        foreach ($parts as $def) {
-            sscanf($def, '%d%s', $amount, $duration);
-            $seconds += $this->durationToSeconds($duration, $amount);
-        }
-
-        return $seconds;
-    }
-
-    private function durationToSeconds($duration, $amount)
-    {
-        return $amount * $this->secondsDurationMap[$duration];
+        return $seconds <= $this->timespan;
     }
 }

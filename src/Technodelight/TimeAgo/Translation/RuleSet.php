@@ -19,14 +19,16 @@ class RuleSet
     public function getMatchingRule($seconds)
     {
         $this->sortRulesByTimespan();
+        $lastRule = null;
         foreach ($this->rules as $ruleFormatterPair) {
             list($rule, $formatter) = $ruleFormatterPair;
+            $lastRule = $rule;
             if ($rule->match($seconds)) {
                 return $rule;
             }
         }
 
-        return $rule;
+        return $lastRule;
     }
 
     public function formatterForRule(Rule $ruleToFind)

@@ -9,32 +9,30 @@ class Formatter
     /**
      * @var string
      */
-    private $name;
-    /**
-     * @var string
-     */
     private $duration;
 
-    public function __construct($name, $duration)
-    {
-        $this->name = $name;
-        $this->duration = $duration;
-    }
+    /**
+     *
+     * @var string
+     */
+    private $strategy;
 
-    public function name()
+    public function __construct($duration, $strategy = null)
     {
-        return $this->name;
+        $this->duration = $duration;
+        $this->strategy = $strategy ?: 'round';
     }
 
     /**
      * @param int $seconds
-     * @param Callable $strategy
      *
      * @return int
      */
-    public function format($seconds, Callable $strategy = null)
+    public function format($seconds)
     {
-        $strategy = $strategy ?: 'round';
-        return (int) $strategy($seconds / $this->secondsDurationMap[$this->duration]);
+        return (int) call_user_func(
+            $this->strategy,
+            ($seconds / $this->secondsDurationMap[$this->duration])
+        );
     }
 }
