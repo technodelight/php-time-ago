@@ -27,6 +27,11 @@ class Rule
         return $this->name;
     }
 
+    public function timespan()
+    {
+        return $this->timespan;
+    }
+
     public function match($seconds)
     {
         return $seconds < $this->timespan;
