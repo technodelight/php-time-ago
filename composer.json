@@ -1,10 +1,14 @@
 {
-    "name": "jimmiw/php-time-ago",
-    "description": "Simple module, that displays the date in a \"time ago\" format",
+    "name": "technodelight/php-time-ago",
+    "description": "Simple module which displays the date in a \"time ago\" format",
     "keywords": ["time ago", "distance of time", "time ago in words"],
-    "homepage": "https://github.com/jimmiw/php-time-ago",
-    "license": "MIT",
+    "homepage": "https://github.com/technodelight/php-time-ago",
     "authors": [
+        {
+            "name": "Zsolt Gál",
+            "homepage": "https://github.com/technodelight",
+            "role": "Developer"
+        },
         {
             "name": "Jimmi Westerberg",
             "homepage": "http://www.westsworld.dk",
@@ -12,9 +16,13 @@
         }
     ],
     "require": {
-        "php": ">=5.3"
+        "php": ">=5.4"
     },
-    "autoload": {
-        "files": ["timeago.inc.php"]
-    }
+    "require-dev": {
+        "phpspec/phpspec": "^2.3"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {"psr-0": {"Technodelight": "src"}}
 }

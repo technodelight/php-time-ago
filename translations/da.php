@@ -1,6 +1,6 @@
 <?php
 
-$timeAgoStrings = array(
+return array(
   'aboutOneDay' => "1 dag siden",
   'aboutOneHour' => "cirka 1 time siden",
   'aboutOneMonth' => "cirka 1 måned siden",
