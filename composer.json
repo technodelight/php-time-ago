@@ -12,7 +12,7 @@
         {
             "name": "Jimmi Westerberg",
             "homepage": "http://www.westsworld.dk",
-            "role": "Developer"
+            "role": "Author"
         }
     ],
     "require": {
@@ -23,6 +23,11 @@
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.0"
+        }
     },
     "autoload": {"psr-0": {"Technodelight": "src"}}
 }
