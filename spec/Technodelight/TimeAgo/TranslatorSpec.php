@@ -9,9 +9,26 @@ use Technodelight\TimeAgo\Translation\DefaultRuleSet;
 
 class TranslatorSpec extends ObjectBehavior
 {
+    /**
+     * @var array
+     */
+    private $textMap = array(
+        'aboutOneDay' => "1 day ago",
+        'aboutOneHour' => "about 1 hour ago",
+        'aboutOneMonth' => "about 1 month ago",
+        'aboutOneYear' => "about 1 year ago",
+        'days' => "%s days ago",
+        'hours' => "%s hours ago",
+        'lessThanAMinute' => "less than a minute ago",
+        'lessThanOneHour' => "%s minutes ago",
+        'months' => "%s months ago",
+        'oneMinute' => "1 minute ago",
+        'years' => "over %s years ago"
+    );
+
     function let()
     {
-        $this->beConstructedWith(new Translation, new DefaultRuleSet);
+        $this->beConstructedWith(Translation::fromArray($this->textMap), new DefaultRuleSet);
     }
 
     // less than 29secs
