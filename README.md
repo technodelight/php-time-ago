@@ -32,19 +32,36 @@ $timeAgo = new Technodelight\TimeAgo(
 $timeAgo->inWords(); // => 1 day ago
 ```
 
-  With the above code you can pass any of the translations supplied with this repository. All credits goes to Jimmi Westerberg and the contributors, who added the
+  With the above code you can pass any of the translations supplied with this repository. All credits goes to Jimmi Westerberg and the contributors, who added this
 awesomeness factor.
 
 ```
+$translationLoader = new Technodelight\TimeAgo\TranslationLoader;
 $timeAgo = new Technodelight\TimeAgo(
     new DateTime('-1 hour'),
     new Technodelight\TimeAgo\Translator(
-        Technodelight\TimeAgo\Translation::createFromFile('translations/hu.php')
+        $translationLoader->load('hu')
     )
 );
 
 $timeAgo->inWords(); // => körülbelül 1 órája
 
+```
+
+  By default, the `TimeAgo` uses the current system language as a guide to determine the required translation file, and it defaults to english if this information was not successfully resolved.
+  Of course, you can configure the translation loader to define your own translation directory and use the translations from there:
+
+```
+$translationLoader = new Technodelight\TimeAgo\TranslationLoader;
+$translationLoader->translationDirectory('/your/own/custom/path/with/even/custom/translations/in/it');
+$timeAgo = new Technodelight\TimeAgo(
+    new DateTime('-1 hour'),
+    new Technodelight\TimeAgo\Translator(
+        $translationLoader->load('pirate')
+    )
+);
+
+$timeAgo->inWords(); // => Happened an hour ago! Arrr! Arrr!
 ```
 
 # Credits
