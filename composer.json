@@ -3,6 +3,7 @@
     "description": "Simple module which displays the date in a \"time ago\" format",
     "keywords": ["time ago", "distance of time", "time ago in words"],
     "homepage": "https://github.com/technodelight/php-time-ago",
+    "license": "MIT",
     "authors": [
         {
             "name": "Zsolt Gál",
