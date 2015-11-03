@@ -2,7 +2,7 @@
 
 namespace Technodelight\TimeAgo;
 
-use \OutOfRangeException;
+use Technodelight\TimeAgo\Exception\UnexpectedTranslationIdException;
 
 class Translation
 {
@@ -26,7 +26,7 @@ class Translation
     public function text($from)
     {
         if (!isset($this->textMap[$from])) {
-            throw new OutOfRangeException('No such translation: ' . $from);
+            throw new UnexpectedTranslationIdException('No such translation: ' . $from);
 
         }
         return $this->textMap[$from];

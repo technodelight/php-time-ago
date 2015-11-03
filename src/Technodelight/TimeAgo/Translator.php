@@ -3,6 +3,7 @@
 namespace Technodelight\TimeAgo;
 
 use Technodelight\TimeAgo\Translation;
+use Technodelight\TimeAgo\TranslationLoader;
 use Technodelight\TimeAgo\Translation\DefaultRuleSet;
 use Technodelight\TimeAgo\Translation\RuleSet;
 
@@ -17,9 +18,10 @@ class Translator
      */
     private $ruleSet;
 
-    public function __construct(Translation $translation, RuleSet $ruleSet = null)
+    public function __construct(Translation $translation = null, RuleSet $ruleSet = null)
     {
-        $this->translation = $translation;
+        $loader = new TranslationLoader;
+        $this->translation = $translation ?: $loader->loadDefault();
         $this->ruleSet = $ruleSet ?: new DefaultRuleSet;
     }
 

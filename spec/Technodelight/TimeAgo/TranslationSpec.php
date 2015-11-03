@@ -36,6 +36,7 @@ class TranslationSpec extends ObjectBehavior
 
     function it_throws_exception_if_undefined_text_is_required()
     {
-        $this->shouldThrow('OutOfRangeException')->duringText('nothing-here');
+        $this->shouldThrow('Technodelight\TimeAgo\Exception\UnexpectedTranslationIdException')
+            ->duringText('nothing-here');
     }
 }
