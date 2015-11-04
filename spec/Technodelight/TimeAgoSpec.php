@@ -25,4 +25,10 @@ class TimeAgoSpec extends ObjectBehavior
 
         $this->inWords();
     }
+
+    function it_could_be_constructed_with_language_code()
+    {
+        $this->beConstructedWithTranslation(new DateTime('-1 minute'), 'nl');
+        $this->inWords()->shouldReturn('1 minuut geleden');
+    }
 }
