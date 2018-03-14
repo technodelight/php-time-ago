@@ -12,29 +12,6 @@ class TranslationLoaderSpec extends ObjectBehavior
         $this->shouldHaveType('Technodelight\TimeAgo\TranslationLoader');
     }
 
-    function it_is_able_to_locate_default_translations_directory()
-    {
-        $this->translationDirectory()->shouldEndWith('/../../translations');
-    }
-
-    function it_accepts_a_translation_directory()
-    {
-        $this->translationDirectory('/whatever/path/to/my-custom-translations');
-        $this->translationDirectory()->shouldBeLike('/whatever/path/to/my-custom-translations');
-    }
-
-    function it_can_return_translation_directory_contents()
-    {
-        $this->translations()->shouldBeLike(array(
-            'da' => 'da.php',
-            'de' => 'de.php',
-            'en' => 'en.php',
-            'hu' => 'hu.php',
-            'nl' => 'nl.php',
-            'zh_CN' => 'zh_CN.php',
-        ));
-    }
-
     function it_could_load_a_translation()
     {
         $this->load('en')->shouldHaveType('Technodelight\TimeAgo\Translation');

@@ -2,9 +2,6 @@
 
 namespace Technodelight\TimeAgo\Translation;
 
-use Technodelight\TimeAgo\Translation\Formatter;
-use Technodelight\TimeAgo\Translation\Rule;
-
 use \LogicException;
 
 class RuleSet
@@ -21,7 +18,7 @@ class RuleSet
         $this->sortRulesByTimespan();
         $lastRule = null;
         foreach ($this->rules as $ruleFormatterPair) {
-            list($rule, $formatter) = $ruleFormatterPair;
+            list($rule, ) = $ruleFormatterPair;
             $lastRule = $rule;
             if ($rule->match($seconds)) {
                 return $rule;
@@ -48,7 +45,9 @@ class RuleSet
         uasort(
             $this->rules,
             function($pairOne, $pairTwo) {
+                /** @var Rule $ruleOne */
                 $ruleOne = $pairOne[0];
+                /** @var Rule $ruleTwo */
                 $ruleTwo = $pairTwo[0];
 
                 if ($ruleOne->timespan() == $ruleTwo->timespan()) {
