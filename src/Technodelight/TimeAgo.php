@@ -2,6 +2,7 @@
 
 namespace Technodelight;
 
+use DateTime;
 use Technodelight\TimeAgo\TranslationLoader;
 use Technodelight\TimeAgo\Translator;
 
@@ -17,10 +18,10 @@ class TimeAgo
     private $translator;
 
     /**
-     * @param DateTime        $dateTime
+     * @param DateTime $dateTime
      * @param Translator|null $translator
      */
-    public function __construct(\DateTime $dateTime, Translator $translator = null)
+    public function __construct(DateTime $dateTime, Translator $translator = null)
     {
         $this->dateTime = $dateTime;
         $this->translator = $translator ?: new Translator;
@@ -30,14 +31,26 @@ class TimeAgo
      * Instantiate TimeAgo with the desired built-in translation
      *
      * @param  DateTime $dateTime
-     * @param  string   $languageCode
+     * @param  string $languageCode
      *
      * @return TimeAgo
      */
-    public static function withTranslation(\DateTime $dateTime, $languageCode)
+    public static function withTranslation(DateTime $dateTime, $languageCode)
     {
         $translationLoader = new TranslationLoader;
+
         return new self($dateTime, new Translator($translationLoader->load($languageCode)));
+    }
+
+    /**
+     * Instantiate TimeAgo with auto-detect locale using DateTime only
+     *
+     * @param  DateTime $dateTime
+     * @return TimeAgo
+     */
+    public static function fromDateTime(DateTime $dateTime)
+    {
+        return new self($dateTime);
     }
 
     /**
@@ -45,11 +58,22 @@ class TimeAgo
      *
      * @return string
      */
-    public function inWords(\DateTime $now = null)
+    public function inWords(DateTime $now = null)
     {
-        $now = $now ?: new \DateTime;
+        $now = $now ?: new DateTime;
+
         return $this->translator->translate(
             $now->getTimestamp() - $this->dateTime->getTimestamp()
         );
+    }
+
+    /**
+     * Returns time ago using current datetime
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->inWords();
     }
 }

@@ -4,9 +4,7 @@ namespace spec\Technodelight;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-
 use \DateTime;
-
 use Technodelight\TimeAgo\Translator;
 
 class TimeAgoSpec extends ObjectBehavior

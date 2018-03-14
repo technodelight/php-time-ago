@@ -16,11 +16,20 @@
   2 yrs <-> max time or date                                                # => over [2..X] years
 ```
 
-  This is the default `RuleSet` TimeAgo works with, but it could be changed depending on your needs:
+  Above example is using the default `RuleSet`, but you can define your own when you want:
 
 ```
 $ruleSet = new Technodelight\TimeAgo\Translation\RuleSet;
-$ruleSet->add(new Rule('aboutOneDay', '23hour'), new Formatter('days', 'day'));
+$ruleSet->add(
+  new Rule(
+    'aboutOneDay', // rule name, which would be used as a translation key
+    '23hour' // timespan, as a limit, without spaces between numerics and time. Check DefaultRuleSet for examples
+  ), 
+  new Formatter(
+    'days', // duration type, according to durations in \Technodelight\TimeAgo\Translation\SecondsDurationMap 
+    'floor' // strategy (function) to use for calculating the amount. In this example "days" are calculated with floor()
+  )
+);
 $timeAgo = new Technodelight\TimeAgo(
     new DateTime('-1 hour'),
     new Technodelight\TimeAgo\Translator(
@@ -32,32 +41,34 @@ $timeAgo = new Technodelight\TimeAgo(
 $timeAgo->inWords(); // => 1 day ago
 ```
 
-  With the above code you can pass any of the translations supplied with this repository. All credits goes to Jimmi Westerberg and the contributors, who added this
-awesomeness factor.
+The example below shows how customisable is TimeAgo:   
 
 ```
-$translationLoader = new Technodelight\TimeAgo\TranslationLoader;
+// with all dependencies injected:
+$translationLoader = new Technodelight\TimeAgo\TranslationLoader; // can load built-in translations
 $timeAgo = new Technodelight\TimeAgo(
-    new DateTime('-1 hour'),
-    new Technodelight\TimeAgo\Translator(
-        $translationLoader->load('hu')
+    new DateTime('-1 hour'), // static datetime
+    new Technodelight\TimeAgo\Translator( // this only needs an array as an input
+        $translationLoader->load('hu') // use a fixed translation
     )
 );
+
+// or simply:
+$timeAgo = Technodelight\TimeAgo::withTranslation(new \DateTime('-1 hour'), 'hu');
 
 $timeAgo->inWords(); // => körülbelül 1 órája
 
 ```
-
+  In the above example you can pass any of the translations supplied with this repository. All credits goes to Jimmi Westerberg and to the contributors of his repository.
+  
   By default, the `TimeAgo` uses the current system language as a guide to determine the required translation file, and it defaults to english if this information was not successfully resolved.
-  Of course, you can configure the translation loader to define your own translation directory and use the translations from there:
+  Of course, you can pass your own translation when required:
 
 ```
-$translationLoader = new Technodelight\TimeAgo\TranslationLoader;
-$translationLoader->translationDirectory('/your/own/custom/path/with/even/custom/translations/in/it');
 $timeAgo = new Technodelight\TimeAgo(
     new DateTime('-1 hour'),
     new Technodelight\TimeAgo\Translator(
-        $translationLoader->load('pirate')
+        ['aboutOneHour' => 'Happened an hour ago! Arrr! Arrr!']
     )
 );
 
@@ -72,7 +83,7 @@ $timeAgo->inWords(); // => Happened an hour ago! Arrr! Arrr!
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Zsolt Gál
+Copyright (c) 2018 Zsolt Gál
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
