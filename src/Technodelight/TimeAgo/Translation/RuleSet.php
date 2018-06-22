@@ -6,13 +6,29 @@ use \LogicException;
 
 class RuleSet
 {
+    /**
+     * @var Rule[]
+     */
     private $rules = array();
 
+    /**
+     * Add new rule to the set with formatter
+     *
+     * @param Rule $rule the rule which determines where to "cut"
+     * @param Formatter $formatter the formatter which is responsible to render the "amount" of time
+     * @return void
+     */
     public function add(Rule $rule, Formatter $formatter)
     {
         $this->rules[] = array($rule, $formatter);
     }
 
+    /**
+     * Finds a matching rule for an amount of time
+     *
+     * @param int $seconds
+     * @return Rule|null
+     */
     public function getMatchingRule($seconds)
     {
         $this->sortRulesByTimespan();
@@ -28,6 +44,13 @@ class RuleSet
         return $lastRule;
     }
 
+    /**
+     * Finds a (configured) formatter for a given rule
+     *
+     * @param Rule $ruleToFind
+     * @return Formatter
+     * @throws LogicException when no formatter found
+     */
     public function formatterForRule(Rule $ruleToFind)
     {
         foreach ($this->rules as $ruleFormatterPair) {
@@ -37,7 +60,7 @@ class RuleSet
             }
         }
 
-        throw new LogicException('A formatter should have been available');
+        throw new LogicException(sprintf('A formatter for rule %s was not found', $ruleToFind->name()));
     }
 
     private function sortRulesByTimespan()

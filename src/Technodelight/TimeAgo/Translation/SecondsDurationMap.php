@@ -2,42 +2,21 @@
 
 namespace Technodelight\TimeAgo\Translation;
 
-trait SecondsDurationMap
+interface SecondsDurationMap
 {
     /**
-     * Durations mapped to values in seconds
+     * Converts a definition like "1day" into seconds
      *
-     * @var array
+     * @param string $human
+     * @return int
      */
-    private $secondsDurationMap = array(
-        'sec' => 1,
-        'min' => 60,
-        'hour' => 3600,
-        'day' => 86400,
-        'month' => 2592000,
-        'year' => 31104000,
-    );
+    public function inSeconds($human);
 
-    private function inSeconds($human)
-    {
-        $parts = explode(' ', preg_replace('~-\s+~', '-', $human));
-        $seconds = 0;
-        foreach ($parts as $def) {
-            $operand = '+';
-            if (strpos($def, '-') !== false) {
-                $def = substr($def, strpos($def, '-') + 1);
-                $operand = '-';
-            }
-            sscanf($def, '%d%s', $amount, $duration);
-
-            $seconds += ($this->durationToSeconds($duration, $amount) * ($operand == '+' ? 1 : -1));
-        }
-
-        return $seconds;
-    }
-
-    private function durationToSeconds($duration, $amount)
-    {
-        return $amount * $this->secondsDurationMap[$duration];
-    }
+    /**
+     * Returns an amount for a duration type
+     *
+     * @param  string $duration
+     * @return int
+     */
+    public function amountForDuration($duration);
 }

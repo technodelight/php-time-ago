@@ -24,31 +24,35 @@ $ruleSet->add(
   new Rule(
     'aboutOneDay', // rule name, which would be used as a translation key
     '23hour' // timespan, as a limit, without spaces between numerics and time. Check DefaultRuleSet for examples
-  ), 
+  ),
   new Formatter(
-    'days', // duration type, according to durations in \Technodelight\TimeAgo\Translation\SecondsDurationMap 
+    'day', // duration type, according to durations in \Technodelight\TimeAgo\Translation\SecondsDurationMap
     'floor' // strategy (function) to use for calculating the amount. In this example "days" are calculated with floor()
   )
 );
 $timeAgo = new Technodelight\TimeAgo(
     new DateTime('-1 hour'),
     new Technodelight\TimeAgo\Translator(
-        new Technodelight\TimeAgo\Translation,
+        new Technodelight\TimeAgo\Translation( // this only needs an array as an input
+            [
+                'aboutOneDay' => 'About one day'
+            ]
+        ),
         $ruleSet
     )
 );
 
-$timeAgo->inWords(); // => 1 day ago
+$timeAgo->inWords(); // => About one day
 ```
 
-The example below shows how customisable is TimeAgo:   
+The example below shows how customisable is TimeAgo:
 
 ```
 // with all dependencies injected:
 $translationLoader = new Technodelight\TimeAgo\TranslationLoader; // can load built-in translations
 $timeAgo = new Technodelight\TimeAgo(
     new DateTime('-1 hour'), // static datetime
-    new Technodelight\TimeAgo\Translator( // this only needs an array as an input
+    new Technodelight\TimeAgo\Translator(
         $translationLoader->load('hu') // use a fixed translation
     )
 );
@@ -60,7 +64,7 @@ $timeAgo->inWords(); // => körülbelül 1 órája
 
 ```
   In the above example you can pass any of the translations supplied with this repository. All credits goes to Jimmi Westerberg and to the contributors of his repository.
-  
+
   By default, the `TimeAgo` uses the current system language as a guide to determine the required translation file, and it defaults to english if this information was not successfully resolved.
   Of course, you can pass your own translation when required:
 
