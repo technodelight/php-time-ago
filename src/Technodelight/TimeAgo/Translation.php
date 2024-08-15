@@ -6,6 +6,11 @@ use Technodelight\TimeAgo\Exception\UnexpectedTranslationIdException;
 
 class Translation
 {
+    /**
+     * @var array
+     */
+    private $textMap;
+
     private function __construct(array $textMap)
     {
         $this->textMap = $textMap;
